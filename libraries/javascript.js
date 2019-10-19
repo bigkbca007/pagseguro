@@ -38,7 +38,7 @@
 					$('.debito').append('<div><img src="https://stc.pagseguro.uol.com.br/'+obj.images.SMALL.path+'"> '+obj.name+'</div>');
 				});
 			},
-			erro: function(response){},
+			error: function(response){},
 			complete: function(response){
 				getTokenCard();
 			}
@@ -53,15 +53,11 @@
 			PagSeguroDirectPayment.getBrand({
 				cardBin: numeroCartao,
 				success: function(response){
-					if(response.brand){
-						var bandeiraImg = response.brand.name;
-						$('.bandeiraCartao').html('<img src="https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/42x20/'+bandeiraImg+'.png">');
-						getParcelas(bandeiraImg);
-					} else {
-						$('.bandeiraCartao').empty();
-					}
+					var bandeiraImg = response.brand.name;
+					$('.bandeiraCartao').html('<img src="https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/42x20/'+bandeiraImg+'.png">');
+					getParcelas(bandeiraImg);
 				},
-				erro: function(response){
+				error: function(response){
 					alert('Cartão não reconhecido.');
 					$('.bandeiraCartao').empty();
 				}
@@ -81,31 +77,45 @@
 				$.each(response.installments, function(i, cartao){
 					$.each(cartao, function(j, d){
 						valorParcela = 'R$ '+d.installmentAmount.toFixed(2).replace('.',',');
-						$('#parcelas').append('<option value="'+d.installmentAmount+'" data-quantity='+d.quantity+'>'+d.quantity+' parcelas de '+valorParcela +'</option>');
+						$('#valorParcelas').append('<option value="'+d.installmentAmount+'" data-quantity='+d.quantity+'>'+d.quantity+' parcelas de '+valorParcela +'</option>');
 					});
 				});
+			},
+			error:function(resp){
+				console.log(resp);
 			}
 		});
 	}
 
 	function getTokenCard(){
-		alert('carai1');
 		PagSeguroDirectPayment.createCardToken({
 			cardNumber: '4111111111111111',
-			brand: 'visa ',
+			brand: 'visa',
 			cvv: '123',
 			expirationMonth: '12',
 			expirationYear: '2030',
 			success: function(response){
-				alert('carai2');
-				console.log(response);
 				$('#tokenCard').val(response.card.token);
+			},
+			error:function(response){
+				console.log(response);
 			}
 		});
 	}
 
+	// Obter o hash do cartão
+	$('#botaoComprar').on('click', function(event){
+		PagSeguroDirectPayment.onSenderHashReady(function(response){
+			$('#hashCard').val(response.senderHash);
+
+	        if(response.status=='success'){
+        		$("#form1").trigger('submit');
+			}
+		});
+	});
+
 	// Seta a quantidade de parcelas
-	$('#parcelas').on('change', function(){
+	$('#valorParcelas').on('change', function(){
 		$('#qtdParcelas').val($(this).find('option:selected').data().quantity);
 	});
 

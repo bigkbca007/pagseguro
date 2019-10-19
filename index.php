@@ -6,18 +6,22 @@
 	</head>
 	<body>
 
-		<form>
+		<form id="form1" name="form1" action="Controllers/ControllerPedido.php" method="POST">
 			<label>Nº Cartão de Crédito</label>
 			<input type="text" id="numeroCartao" name="numeroCartao">
 
-			<label for="parcelas">Parcelas</label>
-			<select name="parcelas" id="parcelas">
+			<label for="valorParcelas">Parcelas</label>
+			<select name="valorParcelas" id="valorParcelas">
 				<option>Selecione</option>
 			</select>
 
 			<input type="hidden" name="qtdParcelas" id="qtdParcelas">
 			<input type="hidden" name="tokenCard" id="tokenCard">
+			<input type="hidden" name="hashCard" id="hashCard">
+
 		</form>
+		<input type="button" name="botaoComprar" id="botaoComprar" value="Comprar">
+		
 		<div class="bandeiraCartao"></div>
 
 		<div class="cartaoCredito"><div class="titulo">Cartão de Crédito</div></div>
