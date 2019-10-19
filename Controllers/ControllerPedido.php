@@ -15,7 +15,7 @@ $Data["receiverEmail"]=EMAIL_PAGSEGURO;
 $Data["currency"]="BRL";
 $Data["itemId1"] = 1;
 $Data["itemDescription1"] = 'Website';
-$Data["itemAmount1"] = '500.00';
+$Data["itemAmount1"] = "500.00";
 $Data["itemQuantity1"] = 1;
 $Data["notificationURL="]="https://www.meusite.com.br/notificacao.php";
 $Data["reference"]="83783783737";
@@ -67,7 +67,7 @@ $Retorno=curl_exec($Curl);
 curl_close($Curl);
 
 $Xml=simplexml_load_string($Retorno);
-var_dump($Xml);
+echo "<pre>"; print_r($_POST);print_r($Xml); echo "</br>";
 
 /*
 include('../config/config.php');

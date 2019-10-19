@@ -71,13 +71,13 @@
 	function getParcelas(bandeira){
 		PagSeguroDirectPayment.getInstallments({
 			amount: amount,
-			maxInsallmentNoInterest: 2,
+			maxInstallmentNoInterest: 2,
 			brand: bandeira,
 			success: function(response){
 				$.each(response.installments, function(i, cartao){
 					$.each(cartao, function(j, d){
 						valorParcela = 'R$ '+d.installmentAmount.toFixed(2).replace('.',',');
-						$('#valorParcelas').append('<option value="'+d.installmentAmount+'" data-quantity='+d.quantity+'>'+d.quantity+' parcelas de '+valorParcela +'</option>');
+						$('#valorParcelas').append('<option value="'+d.installmentAmount.toFixed(2)+'" data-quantity='+d.quantity+'>'+d.quantity+' parcelas de '+valorParcela +'</option>');
 					});
 				});
 			},
