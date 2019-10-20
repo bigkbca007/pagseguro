@@ -1,4 +1,4 @@
-//jQuery(document).ready(function($){
+jQuery(document).ready(function($){
 
 	// Iniciar a sessão de pagamento
 	var root = document.location.href;
@@ -38,10 +38,6 @@
 					$('.debito').append('<div><img src="https://stc.pagseguro.uol.com.br/'+obj.images.SMALL.path+'"> '+obj.name+'</div>');
 				});
 			},
-			error: function(response){},
-			complete: function(response){
-				getTokenCard();
-			}
 		});
 	}
 
@@ -54,6 +50,7 @@
 				cardBin: numeroCartao,
 				success: function(response){
 					var bandeiraImg = response.brand.name;
+					$('#bandeiraCartao').val(bandeiraImg);
 					$('.bandeiraCartao').html('<img src="https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/42x20/'+bandeiraImg+'.png">');
 					getParcelas(bandeiraImg);
 				},
@@ -62,8 +59,6 @@
 					$('.bandeiraCartao').empty();
 				}
 			});
-		} else {
-			$('.bandeiraCartao').empty();
 		}
 	});
 
@@ -89,15 +84,16 @@
 
 	function getTokenCard(){
 		PagSeguroDirectPayment.createCardToken({
-			cardNumber: '4111111111111111',
-			brand: 'visa',
-			cvv: '123',
-			expirationMonth: '12',
-			expirationYear: '2030',
+			cardNumber: $('#numeroCartao').val(),
+			brand: $('#bandeiraCartao').val(),
+			cvv: $('#cvv').val(),
+			expirationMonth: $('#mesValidade').val(),
+			expirationYear: $('#anoValidade').val(),
 			success: function(response){
 				$('#tokenCard').val(response.card.token);
 			},
 			error:function(response){
+				console.log('porra');
 				console.log(response);
 			}
 		});
@@ -105,13 +101,17 @@
 
 	// Obter o hash do cartão
 	$('#botaoComprar').on('click', function(event){
-		PagSeguroDirectPayment.onSenderHashReady(function(response){
-			$('#hashCard').val(response.senderHash);
+		if('creditCard' == $('input[name=paymentMethod]:checked').val()){
+				PagSeguroDirectPayment.onSenderHashReady(function(response){
+					$('#hashCard').val(response.senderHash);
 
-	        if(response.status=='success'){
-        		$("#form1").trigger('submit');
-			}
-		});
+			        if(response.status=='success'){
+		        		$("#form1").trigger('submit');
+					}
+				});
+		} else {
+			$("#form1").trigger('submit');
+		}
 	});
 
 	// Seta a quantidade de parcelas
@@ -119,5 +119,17 @@
 		$('#qtdParcelas').val($(this).find('option:selected').data().quantity);
 	});
 
-	iniciarSessao();
-//});
+	$('#cvv').on('blur', function(){
+		getTokenCard();
+	});
+
+	$('input[name=paymentMethod]').on('change', function(){
+		if('creditCard' == $(this).val()){
+			$('#fieldsCreditCard').removeClass('d-none');
+		} else if('boleto' == $(this).val()){
+			$('#fieldsCreditCard').addClass('d-none');
+		}
+	});
+
+	//iniciarSessao();
+});
