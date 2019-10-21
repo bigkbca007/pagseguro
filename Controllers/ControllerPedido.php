@@ -71,17 +71,17 @@ curl_setopt($Curl,CURLOPT_POST,true);
 curl_setopt($Curl,CURLOPT_SSL_VERIFYPEER,false);
 curl_setopt($Curl,CURLOPT_RETURNTRANSFER,true);
 curl_setopt($Curl,CURLOPT_POSTFIELDS,$BuildQuery);
-$Retorno=curl_exec($Curl);
+$retorno=curl_exec($Curl);
 curl_close($Curl);
 
-$Xml=simplexml_load_string($Retorno);
+$xml=simplexml_load_string($retorno);
 
 if('creditCard' == $paymentMethod){
-	echo "<pre>"; print_r($_POST);print_r($Xml); echo "</br>";
+	echo "<pre>"; print_r($_POST);print_r($xml); echo "</br>";
 } elseif('boleto' == $paymentMethod){
 	echo "
 		<script>
-		    window.location.href='$Xml->paymentLink';
+		    window.location.href='$xml->paymentLink';
 		</script>";
 }
 

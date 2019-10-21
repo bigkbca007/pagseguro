@@ -15,9 +15,13 @@
 					<input class="form-check-input" type="radio" name="paymentMethod" id="creditCard" value="creditCard" checked>
 					<label class="form-check-label" for="creditCard">Cartão de Crédito</label>
 				</div>
-					<div class="form-check form-check-inline">
+				<div class="form-check form-check-inline">
 					<input class="form-check-input" type="radio" name="paymentMethod" id="boleto" value="boleto">
 					<label class="form-check-label" for="boleto">Boleto</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="paymentMethod" id="split" value="split">
+					<label class="form-check-label" for="split">Split</label>
 				</div>
 			</div>
 			<div id="fieldsCreditCard">

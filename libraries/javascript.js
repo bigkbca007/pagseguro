@@ -7,7 +7,7 @@ jQuery(document).ready(function($){
 	function iniciarSessao()
 	{
 		$.ajax({
-			url: root+'Controllers/ControllerId.php',
+			url: root+'Controllers/ControllerId.php?acao=iniciarSessao',
 			type: 'POST',
 			dataType: 'json',
 			success: function(data){
