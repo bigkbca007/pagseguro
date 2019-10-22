@@ -46,24 +46,34 @@ jQuery(document).ready(function($){
 		var qtdCaracteres = numeroCartao.length;
 
 		if(qtdCaracteres == 6){
+			$('.img-cartao-credito').addClass('nao-selecionado');
+			var bandeiraImg = (111111 == numeroCartao) ? 'visa' : 'mastercard';
+			$('#'+bandeiraImg).removeClass('nao-selecionado');
+			$('#bandeiraCartaoSelecionado').html('<img src="img/'+bandeiraImg+'.jpg" style="width: 28px;">');
+
+			getParcelas(bandeiraImg);
+			/*
 			PagSeguroDirectPayment.getBrand({
 				cardBin: numeroCartao,
 				success: function(response){
 					var bandeiraImg = response.brand.name;
 					$('#bandeiraCartao').val(bandeiraImg);
-					$('.bandeiraCartao').html('<img src="https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/42x20/'+bandeiraImg+'.png">');
+					$('#bandeiraCartaoSelecionado').html('<img src="https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/42x20/'+bandeiraImg+'.png">');
+					$('#'+bandeiraImg).removeClass('nao-selecionado');
 					getParcelas(bandeiraImg);
 				},
 				error: function(response){
 					alert('Cartão não reconhecido.');
-					$('.bandeiraCartao').empty();
+					$('#bandeiraCartaoSelecionado').empty();
 				}
 			});
+			*/
 		}
 	});
 
 	// Exibe a quantidade e valores da parcelas
 	function getParcelas(bandeira){
+		/*
 		PagSeguroDirectPayment.getInstallments({
 			amount: amount,
 			maxInstallmentNoInterest: 2,
@@ -80,6 +90,7 @@ jQuery(document).ready(function($){
 				console.log(resp);
 			}
 		});
+		*/
 	}
 
 	function getTokenCard(){
